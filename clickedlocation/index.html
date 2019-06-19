@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Metadata -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="unsorry">
+     <meta name="description" content="leafletjs marker with google maps directions">
+
+    <!-- Judul pada tab browser -->
+    <title>Leaflet Directions to Clicked Location</title>
+
+    <!-- Leaflet CSS Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
+    <link rel="stylesheet" href="../assets/css/gh-fork-ribbon.css">
+
+    <link rel="icon" type="image/x-icon" href="https://unsorry.net/assets-date/images/favicon.png">
+
+    <!-- Style untuk tampilan peta fullscreen -->
+    <style>
+      html, body, #map {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+      }
+      button {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-right: 10px;
+        padding-left: 10px;
+        background-color: #A4C639;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Leaflet JavaScript Library -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <!-- Geolocation Javascript Library -->
+
+    <div class="github-fork-ribbon-wrapper right">
+      <div class="github-fork-ribbon">
+        <a href="https://github.com/anshori/leafletjs-marker-gmaps-directions">Fork me on GitHub</a>
+      </div>
+    </div>
+
+    <!-- HTML Block untuk menampilkan peta -->
+    <div id="map"></div>
+
+    <script>
+      /* Initial Map */
+      var map = L.map('map').setView([-7.9,110.45],10); //lat, long, zoom
+      
+      /* Tile Basemap */
+      var basemap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="http://www.unsorry.net" target="_blank">unsorry@2019</a>'
+      });
+      basemap.addTo(map); //Memanggil basemap untuk ditampilkan ketika halaman dipanggil
+
+      /* Geolocation */
+      function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+
+        L.marker(e.latlng).addTo(map)
+          .bindPopup("Lokasi Anda di sini, akurasi " + radius + " meter").openPopup();
+
+        L.circle(e.latlng, radius).addTo(map);
+      }
+
+      function onLocationError(e) {
+        alert(e.message);
+      }
+
+      map.on('locationfound', onLocationFound);
+      map.on('locationerror', onLocationError);
+
+      map.locate({setView: true, maxZoom: 13});
+
+      /* Popup by clicked */
+      var popup = L.popup();
+
+      function onMapClick(e) {
+        var content = "Lokasi yang Anda klik " + e.latlng.lat.toFixed(4) + ", " + e.latlng.lng.toFixed(4) + "<br><hr>" +
+        "<a href='https://www.google.com/maps/dir/?api=1&destination=" + e.latlng.lat.toString() + "," + e.latlng.lng.toString() + "&travelmode=driving' target='_blank' title='Klik untuk menuju lokasi'><button>Rute menuju lokasi</button></a>";
+        popup
+          .setLatLng(e.latlng)
+          .setContent(content)
+          .openOn(map);
+      }
+      map.on('click', onMapClick);
+    </script>
+  </body>
+</html>
