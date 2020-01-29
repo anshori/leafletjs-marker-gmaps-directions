@@ -5,11 +5,13 @@ Leaflet Marker with link Google Maps Directions
 > [Developer Guide](https://developers.google.com/maps/documentation/urls/guide)
 
 ## Demo
-> [https://www.unsorry.net/git/leafletjs-marker-gmaps-directions](https://www.unsorry.net/git/leafletjs-marker-gmaps-directions)
+> [https://anshori.github.io/leafletjs-marker-gmaps-directions](https://anshori.github.io/leafletjs-marker-gmaps-directions)
 
-> [https://www.unsorry.net/git/leafletjs-marker-gmaps-directions/bootleaf](https://www.unsorry.net/git/leafletjs-marker-gmaps-directions/bootleaf)
+> [https://anshori.github.io/leafletjs-marker-gmaps-directions/modalpopup](https://anshori.github.io/leafletjs-marker-gmaps-directions/modalpopup)
 
-> [https://www.unsorry.net/git/leafletjs-marker-gmaps-directions/clickedlocation](https://www.unsorry.net/git/leafletjs-marker-gmaps-directions/clickedlocation)
+> [https://anshori.github.io/leafletjs-marker-gmaps-directions/clickedlocation](https://anshori.github.io/leafletjs-marker-gmaps-directions/clickedlocation)
+
+> [https://anshori.github.io/leafletjs-marker-gmaps-directions/draggablemarker](https://anshori.github.io/leafletjs-marker-gmaps-directions/draggablemarker)
 
 ## Data
-> GeoJSON file marker with the field name **lat** for _latitude_ and field name **long** for _longitude_
+> GeoJSON Point
