@@ -13,7 +13,7 @@
     <title>Leaflet Marker Directions</title>
 
     <!-- Leaflet CSS Library -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
     <!-- Geolocation CSS Library -->
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <!-- Font Awesome CSS Library -->
@@ -41,7 +41,7 @@
 
   <body>
     <!-- Leaflet JavaScript Library -->
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <!-- Geolocation Javascript Library -->
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
@@ -57,10 +57,6 @@
     <div id="map"></div>
 
     <script>
-      /* Icon URL */
-      var leafletmarkericon = "https://unpkg.com/leaflet@1.5.1/dist/images/marker-icon.png";
-      var leafletmarkershadowicon = "https://unpkg.com/leaflet@1.5.1/dist/images/marker-shadow.png";
-
       /* Initial Map */
       var map = L.map('map').setView([-7.9,110.45],10); //lat, long, zoom
       
@@ -72,26 +68,13 @@
 
       /* GeoJSON Point */
       var lokasiuniversitas = L.geoJson(null, {
-        pointToLayer: function (feature, latlng) {
-          return L.marker(latlng, {
-            icon: L.icon({
-              iconUrl: leafletmarkericon, 
-              shadowUrl: leafletmarkershadowicon,
-              iconSize: [25, 41],
-              shadowSize: [41, 41],
-              iconAnchor: [13, 41],
-              shadowAnchor: [13, 41],
-              popupAnchor: [0, -41],
-            })
-          });
-        },
         /* Popup & Tooltip */
         onEachFeature: function (feature, layer) {
           if (feature.properties) {
             /* Variabel untuk memanggil atribut dari data geojson */
             var content = "<h3>" + feature.properties.label + "</h3>" +
               feature.properties.city + "<br><hr>" +
-              "<a href='https://www.google.com/maps/dir/?api=1&destination=" + feature.properties.lat + "," + feature.properties.long + "&travelmode=driving' target='_blank' title='Klik untuk menuju lokasi'><button>Rute</button></a>";
+              "<a href='https://www.google.com/maps/dir/?api=1&destination=" + feature.geometry.coordinates[1] + "," + feature.geometry.coordinates[0] + "' target='_blank' title='Klik untuk menuju lokasi'><button>Rute</button></a>";
             layer.on({
               click: function (e) { //Fungsi ketika icon simbol di-klik
                 lokasiuniversitas.bindPopup(content);

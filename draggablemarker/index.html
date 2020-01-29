@@ -10,7 +10,7 @@
     <meta name="description" content="leafletjs marker with google maps directions">
 
     <!-- Judul pada tab browser -->
-    <title>Leaflet Directions to Clicked Location</title>
+    <title>Leaflet Directions to Draggable Marker</title>
 
     <!-- Leaflet CSS Library -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
@@ -58,38 +58,28 @@
       });
       basemap.addTo(map); //Memanggil basemap untuk ditampilkan ketika halaman dipanggil
 
-      /* Geolocation */
-      function onLocationFound(e) {
-        var radius = e.accuracy / 2;
+      /* Marker */
+      var marker = L.marker([-7.80139, 110.36477], {draggable: true}); //lat, long
+      marker.addTo(map); //Marker ditampilkan ketika halaman dipanggil
 
-        L.marker(e.latlng).addTo(map)
-          .bindPopup("Lokasi Anda di sini, akurasi " + radius + " meter").openPopup();
+      /* Tooltip Marker */
+      marker.bindTooltip('Geser marker untuk mendapatkan koordinat lokasi');
+      marker.openTooltip();
 
-        L.circle(e.latlng, radius).addTo(map);
+      function displayCoordinate (e) {
+        var latlng = e.target.getLatLng();
+
+        var content = "Koordinat lokasi " + latlng.lat.toFixed(5) + ", " + latlng.lng.toFixed(5) +
+              "<br><hr>" +
+              "<a href='https://www.google.com/maps/dir/?api=1&destination=" + latlng.lat.toFixed(5) + "," + latlng.lng.toFixed(5) + "' target='_blank'><button>Tampilkan rute</button></a>";
+
+        marker.bindPopup(content);
+        marker.openPopup();
       }
 
-      function onLocationError(e) {
-        alert(e.message);
-      }
+      //Dragend marker
+      marker.on('dragend', displayCoordinate);
 
-      map.on('locationfound', onLocationFound);
-      map.on('locationerror', onLocationError);
-
-      map.locate({setView: true, maxZoom: 13});
-
-      /* Popup by clicked */
-      var popup = L.popup();
-
-      function onMapClick(e) {
-        var content = "Lokasi yang Anda klik " + e.latlng.lat.toFixed(4) + ", " + e.latlng.lng.toFixed(4) + "<br><hr>" +
-        "<a href='https://www.google.com/maps/dir/?api=1&destination=" + e.latlng.lat.toString() + "," + e.latlng.lng.toString() + "' target='_blank' title='Klik untuk menuju lokasi'><button>Rute menuju lokasi</button></a>";
-        popup
-          .setLatLng(e.latlng)
-          .setContent(content)
-          .openOn(map);
-      }
-
-      map.on('click', onMapClick);
     </script>
   </body>
 </html>
